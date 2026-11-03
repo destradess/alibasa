@@ -12,6 +12,12 @@ Extension Chrome untuk menerjemahkan halaman web dan teks pilihan menggunakan Bi
 - Overlay halaman yang dapat disembunyikan dan ditampilkan kembali.
 - Tema System, Light, dan Dark dengan palet Classic Navy.
 
+## Unduh extension
+
+[Unduh Alibasa 1.13.1 untuk Chrome](downloads/Alibasa-1.13.1-chrome.zip?raw=true).
+
+Ekstrak ZIP, buka chrome://extensions, aktifkan **Developer mode**, pilih **Load unpacked**, lalu pilih folder hasil ekstrak yang berisi manifest.json. Paket ini belum merupakan pemasangan satu klik melalui Chrome Web Store.
+
 ## Pasang dari source
 
 1. Unduh repository melalui **Code → Download ZIP**, lalu ekstrak.
