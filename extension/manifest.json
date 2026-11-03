@@ -1,0 +1,80 @@
+{
+  "manifest_version": 3,
+  "name": "Alibasa - Page & Selection Translator",
+  "version": "1.13.1",
+  "description": "Translate pages and selected text with Bing/Microsoft or Google. Includes bilingual view and light/dark themes.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://translate.googleapis.com/*",
+    "https://edge.microsoft.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Alibasa",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png"
+    }
+  },
+  "commands": {
+    "translate-page": {
+      "suggested_key": {
+        "default": "Alt+Shift+L"
+      },
+      "description": "Translate page"
+    },
+    "translate-selection": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "Translate selection"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content-i18n.js",
+        "overlay.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "page-engine.js",
+        "content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9IO5jh5Yiog3JAiuGxcJaemzD9Ceiir0sbvOyaQDRQQpbrExUZArSZpGogzhUOeF0M3e7m3NUqdr0ukKZVm9DQZb5sM7tTGrH3toUXp9rR4vGaQKezyWXVEE5til8G/sCzElU3E9AhdSYIHx/hJG7OQXVH9zTn0Rb/XNNHphKKcdect9xTwxpQdFwEPV9BtiNE9Smkcybgk+xnhzzpb7JEWbdjX285P5XSeY2oRSiJaW9rXb2p6MhBi/rJi2MXiRkcysh326N6I/9EShR7Ax+rHx7eGwnokbXmGHbfUEdxzC2IJXtPepjk1anvfNQOh4abxxFuwdcpIUTj5SP/SfbwIDAQAB",
+  "minimum_chrome_version": "102"
+}

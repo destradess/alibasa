@@ -1,0 +1,7 @@
+{
+  "name": "alibasa",
+  "version": "1.13.1",
+  "private": true,
+  "type": "module",
+  "description": "Zero-dependency Chrome extension. No build step."
+}

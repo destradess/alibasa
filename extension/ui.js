@@ -1,0 +1,11 @@
+import {MESSAGE_KEYS} from './messages.js';
+import {PROVIDERS} from './core.js';import {BING,GOOGLE,ALL,NAMES} from './languages.js';
+export const $=id=>document.getElementById(id);let dict={},locale='en';
+export const t=key=>dict[key]||key;
+export async function api(type,data={}){const r=await chrome.runtime.sendMessage({type,...data});if(!r?.ok)throw Error(message(r?.error||'No response.'));return r.data;}
+export const message=text=>dict[MESSAGE_KEYS[text]]||text;
+export function showError(e){const error=$('error');if(error){error.textContent=message(e.message);error.hidden=false;}}
+export async function localize(code='en'){locale=ALL.includes(code)?code:'en';const base=await(await fetch('locales/en.json')).json();try{dict={...base,...await(await fetch('locales/'+locale+'.json')).json()};}catch{dict=base;}document.documentElement.lang=locale;let direction='ltr';try{const info=new Intl.Locale(locale);direction=(info.getTextInfo?.()||info.textInfo)?.direction||(/^(ar|he|fa|ur|ps|sd|ug|yi|prs|dv)(-|$)/.test(locale)?'rtl':'ltr');}catch{}document.documentElement.dir=direction;for(const e of document.querySelectorAll('[data-i18n]'))e.textContent=t(e.dataset.i18n);return dict;}
+function languageName(code){try{return new Intl.DisplayNames([locale],{type:'language'}).of(code)||NAMES[code]||code;}catch{return NAMES[code]||code;}}
+export function languages(provider=$('provider')?.value||'bing',values={}){const codes=provider==='bing'?BING:provider==='google'?GOOGLE:ALL;for(const id of ['source','target','appLanguage']){const el=$(id);if(!el)continue;const old=values[id]??el.value;el.replaceChildren();if(id==='source')el.add(new Option(t('auto'),'auto'));const list=(id==='appLanguage'?ALL:codes).map(code=>[code,languageName(code)]).sort((a,b)=>a[1].localeCompare(b[1],locale));for(const [code,name]of list)el.add(new Option(name+' ('+code+')',code));el.value=old;if(!el.value)el.value=id==='source'?'auto':id==='appLanguage'?'en':codes.includes('id')?'id':codes[0];}}
+export function providers(select){const old=select.value;select.replaceChildren();for(const [id,p]of Object.entries(PROVIDERS)){let name=p.name;if(['bing','google'].includes(id))name=name.replace('Free',t('free'));select.add(new Option(name,id));}if(PROVIDERS[old])select.value=old;}
